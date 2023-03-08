@@ -31,19 +31,11 @@ class _TicTacToeScreenState extends State<TicTacToeScreen> {
             ),
           ],
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TurnIndicator(
-              firstColor: firstColor,
-              secondColor: secondColor,
-            ),
-            const SizedBox(height: 60),
-            GameBoard(
-              firstColor: firstColor,
-              secondColor: secondColor,
-            ),
-          ],
+        Center(
+          child: GameBoard(
+            firstColor: firstColor,
+            secondColor: secondColor,
+          ),
         ),
       ]),
     );
