@@ -1,14 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/components/turn_indicator.dart';
+import 'package:tic_tac_toe/screens/winner_screen.dart';
 
 class GameBoard extends StatefulWidget {
   final Color firstColor;
   final Color secondColor;
+  final Color thirdColor;
 
   const GameBoard({
     super.key,
     required this.firstColor,
     required this.secondColor,
+    required this.thirdColor,
   });
 
   @override
@@ -16,6 +21,7 @@ class GameBoard extends StatefulWidget {
 }
 
 class _GameBoardState extends State<GameBoard> {
+  // In memory 1 = X and -1 = O
   final List _memory = [
     [0, 0, 0],
     [0, 0, 0],
@@ -23,6 +29,89 @@ class _GameBoardState extends State<GameBoard> {
   ];
 
   bool currentPlayer = true; // true → X, false → O
+
+  void changeWinnerScreen(int count) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => WinnerScreen(
+            firstColor: widget.firstColor,
+            secondColor: widget.secondColor,
+            thirdColor: widget.thirdColor,
+            winner: count,
+        ))
+    );
+
+    _memory[0] = [0, 0, 0];
+    _memory[1] = [0, 0, 0];
+    _memory[2] = [0, 0, 0];
+
+    currentPlayer = true;
+  }
+
+  void isWinner() {
+    int count = 0;
+
+    // Check lines
+    for(int i in [0, 1, 2]) {
+      for(int j in [0, 1, 2]) {
+        if(_memory[i][j] == 1) {
+          count++;
+        }
+        else if(_memory[i][j] == -1) {
+          count--;
+        }
+      }
+      if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+      count = 0;
+    }
+
+    // Check columns
+    for(int i in [0, 1, 2]) {
+      for(int j in [0, 1, 2]) {
+        if(_memory[j][i] == 1) {
+          count++;
+        } else if(_memory[j][i] == -1) {
+          count--;
+        }
+      }
+      if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+      count = 0;
+    }
+
+    // Check leading diagonal
+    for(int i in [0, 1, 2]) {
+      if(_memory[i][i] == 1) {
+        count++;
+      } else if(_memory[i][i] == -1) {
+        count--;
+      }
+    }
+
+    if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+    count = 0;
+
+    // Check secondary diagonal
+    for(int i in [0, 1, 2]) {
+      if(_memory[i][2-i] == 1) {
+        count++;
+      } else if(_memory[i][2-i] == -1) {
+        count--;
+      }
+    }
+
+    if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+    count = 0;
+
+    // Tie in the game
+    for (int i in [0, 1, 2]) {
+      for(int j in [0, 1, 2]) {
+        if(_memory[i][j] != 0) count++;
+      }
+    }
+
+    if (count == 9) changeWinnerScreen(count); // Tie
+    count = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +135,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[0][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -78,6 +168,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[0][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -110,6 +201,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[0][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -147,6 +239,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[1][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -179,6 +272,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[1][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -211,6 +305,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[1][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -248,6 +343,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[2][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -280,6 +376,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[2][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -312,6 +409,7 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[2][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
                       });
+                      isWinner();
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),

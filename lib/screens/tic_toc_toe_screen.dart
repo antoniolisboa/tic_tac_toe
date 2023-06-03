@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/components/game_board.dart';
 import 'package:tic_tac_toe/components/game_mode.dart';
-import 'package:tic_tac_toe/components/turn_indicator.dart';
 
 class TicTacToeScreen extends StatefulWidget {
   const TicTacToeScreen({super.key});
@@ -35,6 +34,7 @@ class _TicTacToeScreenState extends State<TicTacToeScreen> {
           child: GameBoard(
             firstColor: firstColor,
             secondColor: secondColor,
+            thirdColor: thirdColor,
           ),
         ),
       ]),

@@ -19,7 +19,7 @@ class TurnIndicator extends StatelessWidget {
       children: [
         AnimatedOpacity(
           opacity: currentPlayer ? 1 : 0.3,
-          duration: const Duration(milliseconds: 800),
+          duration: const Duration(milliseconds: 500),
           child: Container(
             height: 100,
             width: 75,
@@ -41,7 +41,7 @@ class TurnIndicator extends StatelessWidget {
         const SizedBox(width: 20),
         AnimatedOpacity(
           opacity: !currentPlayer ? 1 : 0.3,
-          duration: const Duration(milliseconds: 800),
+          duration: const Duration(milliseconds: 500),
           child: Container(
             height: 100,
             width: 75,

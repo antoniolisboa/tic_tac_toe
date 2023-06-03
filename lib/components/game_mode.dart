@@ -25,7 +25,7 @@ class _GameModeState extends State<GameMode> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
-          Icons.person,
+          Icons.group,
           size: 38,
           color: widget.secondColor,
         ),
@@ -44,10 +44,10 @@ class _GameModeState extends State<GameMode> {
         ),
         const SizedBox(width: 5),
         Icon(
-          Icons.group,
+          Icons.person,
           size: 38,
           color: widget.secondColor,
-        )
+        ),
       ],
     );
   }

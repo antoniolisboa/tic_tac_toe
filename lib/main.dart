@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/screens/tic_toc_toe_screen.dart';
+import 'package:tic_tac_toe/screens/winner_screen.dart';
 
 void main() {
   runApp(const MyApp());
