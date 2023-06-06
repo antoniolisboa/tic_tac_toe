@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/components/turn_indicator.dart';
 import 'package:tic_tac_toe/screens/winner_screen.dart';
@@ -22,7 +20,7 @@ class GameBoard extends StatefulWidget {
 
 class _GameBoardState extends State<GameBoard> {
   // In memory 1 = X and -1 = O
-  final List _memory = [
+  final List<List<int>> _memory = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0],
@@ -33,12 +31,14 @@ class _GameBoardState extends State<GameBoard> {
   void changeWinnerScreen(int count) {
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => WinnerScreen(
-            firstColor: widget.firstColor,
-            secondColor: widget.secondColor,
-            thirdColor: widget.thirdColor,
-            winner: count,
-        ))
+        MaterialPageRoute(
+            builder: (context) => WinnerScreen(
+                  firstColor: widget.firstColor,
+                  secondColor: widget.secondColor,
+                  thirdColor: widget.thirdColor,
+                  winner: count,
+                )
+        )
     );
 
     _memory[0] = [0, 0, 0];
@@ -48,69 +48,160 @@ class _GameBoardState extends State<GameBoard> {
     currentPlayer = true;
   }
 
-  void isWinner() {
+  int checkResult(List<List<int>> memory, {bool isMinimax = false}) {
     int count = 0;
 
     // Check lines
-    for(int i in [0, 1, 2]) {
-      for(int j in [0, 1, 2]) {
-        if(_memory[i][j] == 1) {
+    for (int i in [0, 1, 2]) {
+      for (int j in [0, 1, 2]) {
+        if (memory[i][j] == 1) {
           count++;
-        }
-        else if(_memory[i][j] == -1) {
+        } else if (memory[i][j] == -1) {
           count--;
         }
       }
-      if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+      // Winner?
+      if (count.abs() == 3) {
+        if (isMinimax) return count~/count.abs();
+        changeWinnerScreen(count);
+      }
       count = 0;
     }
 
     // Check columns
-    for(int i in [0, 1, 2]) {
-      for(int j in [0, 1, 2]) {
-        if(_memory[j][i] == 1) {
+    for (int i in [0, 1, 2]) {
+      for (int j in [0, 1, 2]) {
+        if (memory[j][i] == 1) {
           count++;
-        } else if(_memory[j][i] == -1) {
+        } else if (memory[j][i] == -1) {
           count--;
         }
       }
-      if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+      // Winner?
+      if (count.abs() == 3) {
+        if (isMinimax) return count~/count.abs();
+        changeWinnerScreen(count);
+      }
       count = 0;
     }
 
     // Check leading diagonal
-    for(int i in [0, 1, 2]) {
-      if(_memory[i][i] == 1) {
+    for (int i in [0, 1, 2]) {
+      if (memory[i][i] == 1) {
         count++;
-      } else if(_memory[i][i] == -1) {
+      } else if (memory[i][i] == -1) {
         count--;
       }
     }
-
-    if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+    // Winner?
+    if (count.abs() == 3) {
+      if (isMinimax) return count~/count.abs();
+      changeWinnerScreen(count);
+    }
     count = 0;
 
     // Check secondary diagonal
-    for(int i in [0, 1, 2]) {
-      if(_memory[i][2-i] == 1) {
+    for (int i in [0, 1, 2]) {
+      if (memory[i][2 - i] == 1) {
         count++;
-      } else if(_memory[i][2-i] == -1) {
+      } else if (memory[i][2 - i] == -1) {
         count--;
       }
     }
-
-    if (count == 3 || count == -3) changeWinnerScreen(count); // Winner
+    // Winner?
+    if (count.abs() == 3) {
+      if (isMinimax) return count~/count.abs();
+      changeWinnerScreen(count);
+    }
     count = 0;
 
     // Tie in the game
     for (int i in [0, 1, 2]) {
-      for(int j in [0, 1, 2]) {
-        if(_memory[i][j] != 0) count++;
+      for (int j in [0, 1, 2]) {
+        if (memory[i][j] != 0) count++;
+      }
+    }
+    // Tie?
+    if (count == 9) {
+      if (isMinimax) return count-count;
+      changeWinnerScreen(count);
+    }
+    count = 10;
+
+    return count;
+  }
+
+  double minimax(int depth, bool player) {
+    // 0: Tie, 1: X, -1: O
+    int result = checkResult(_memory, isMinimax: true);
+
+    // Finish game
+    if (result != 10) return result.toDouble();
+
+    // Sets the starting score to maximize or minimize
+    double bestScore;
+    if (player) {
+      bestScore = -double.infinity;
+    } else {
+      bestScore = double.infinity;
+    }
+
+    // Generate tree of possibilities
+    for (int i in [0, 1, 2]) {
+      for (int j in [0, 1, 2]) {
+        if (_memory[i][j] == 0) {
+          if (player) {
+            _memory[i][j] = 1; // X
+          } else {
+            _memory[i][j] = -1; // O
+          }
+
+          double score = minimax(depth + 1, !player);
+
+          // Undo the move
+          _memory[i][j] = 0;
+
+          // Update the best move
+          if (player) {
+            bestScore = score>bestScore ? score : bestScore; // Max
+          } else {
+            bestScore = score<bestScore ? score : bestScore; // Min
+          }
+        }
       }
     }
 
-    if (count == 9) changeWinnerScreen(count); // Tie
-    count = 0;
+    return bestScore;
+  }
+
+  void findTheBestMove() {
+
+    if (currentPlayer) return;
+
+    double bestScore = 1;
+    double score = 0;
+
+    int line = 0;
+    int column = 0;
+
+    for (int i in [0, 1, 2]) {
+      for (int j in [0, 1, 2]) {
+        if (_memory[i][j] == 0) {
+          _memory[i][j] = -1; // O
+          score = minimax(0, !currentPlayer); // True: X
+          _memory[i][j] = 0;
+
+          if (score<bestScore) {
+            line = i;
+            column = j;
+            bestScore = score;
+          }
+        }
+      }
+    }
+
+    _memory[line][column] = -1;
+    currentPlayer = !currentPlayer;
   }
 
   @override
@@ -134,8 +225,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[0][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -167,8 +263,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[0][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -200,8 +301,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[0][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -238,8 +344,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[1][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -271,8 +382,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[1][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -304,8 +420,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[1][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -342,8 +463,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[2][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -375,8 +501,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[2][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
@@ -408,8 +539,13 @@ class _GameBoardState extends State<GameBoard> {
                       setState(() {
                         _memory[2][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
+
+                        if(!currentPlayer) {
+                          findTheBestMove();
+                        }
+
                       });
-                      isWinner();
+                      checkResult(_memory);
                     },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 100),
