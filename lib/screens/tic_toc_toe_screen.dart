@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/components/game_board.dart';
 import 'package:tic_tac_toe/components/game_mode.dart';
+import 'package:tic_tac_toe/data/game_mode_inherited.dart';
 
 class TicTacToeScreen extends StatefulWidget {
   const TicTacToeScreen({super.key});
@@ -18,26 +19,30 @@ class _TicTacToeScreenState extends State<TicTacToeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: firstColor,
-      body: Stack(children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+      body: GameModeInherited(
+        child: Stack(
           children: [
-            const SizedBox(height: 50),
-            GameMode(
-              firstColor: firstColor,
-              secondColor: secondColor,
-              thirdColor: thirdColor,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 50),
+                GameMode(
+                  firstColor: firstColor,
+                  secondColor: secondColor,
+                  thirdColor: thirdColor,
+                ),
+              ],
+            ),
+            Center(
+              child: GameBoard(
+                firstColor: firstColor,
+                secondColor: secondColor,
+                thirdColor: thirdColor,
+              ),
             ),
           ],
         ),
-        Center(
-          child: GameBoard(
-            firstColor: firstColor,
-            secondColor: secondColor,
-            thirdColor: thirdColor,
-          ),
-        ),
-      ]),
+      ),
     );
   }
 }

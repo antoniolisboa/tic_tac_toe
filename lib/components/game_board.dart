@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/components/turn_indicator.dart';
+import 'package:tic_tac_toe/data/game_mode_inherited.dart';
 import 'package:tic_tac_toe/screens/winner_screen.dart';
 
 class GameBoard extends StatefulWidget {
@@ -27,6 +28,7 @@ class _GameBoardState extends State<GameBoard> {
   ];
 
   bool currentPlayer = true; // true → X, false → O
+  bool mode = false;
 
   void changeWinnerScreen(int count) {
     Navigator.push(
@@ -181,8 +183,8 @@ class _GameBoardState extends State<GameBoard> {
     double bestScore = 1;
     double score = 0;
 
-    int line = 0;
-    int column = 0;
+    int line = -1;
+    int column = -1;
 
     for (int i in [0, 1, 2]) {
       for (int j in [0, 1, 2]) {
@@ -200,8 +202,10 @@ class _GameBoardState extends State<GameBoard> {
       }
     }
 
-    _memory[line][column] = -1;
-    currentPlayer = !currentPlayer;
+    if (line != -1 && column != -1) {
+      _memory[line][column] = -1;
+      currentPlayer = !currentPlayer;
+    }
   }
 
   @override
@@ -226,7 +230,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[0][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -264,7 +269,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[0][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -302,7 +308,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[0][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -345,7 +352,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[1][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -383,7 +391,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[1][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -421,7 +430,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[1][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -464,7 +474,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[2][0] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -502,7 +513,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[2][1] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 
@@ -540,7 +552,8 @@ class _GameBoardState extends State<GameBoard> {
                         _memory[2][2] = currentPlayer ? 1 : -1;
                         currentPlayer = !currentPlayer;
 
-                        if(!currentPlayer) {
+                        mode = GameModeInherited.of(context).mode;
+                        if(!currentPlayer && mode) {
                           findTheBestMove();
                         }
 

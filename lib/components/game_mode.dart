@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe/data/game_mode_inherited.dart';
 
 class GameMode extends StatefulWidget {
   final Color firstColor;
@@ -35,6 +36,7 @@ class _GameModeState extends State<GameMode> {
           onChanged: (changed) {
             setState(() {
               _switchValue = !_switchValue;
+              GameModeInherited.of(context).mode = _switchValue;
             });
           },
           activeColor: widget.secondColor,
