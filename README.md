@@ -26,13 +26,15 @@ Este projeto consiste em uma versão do jogo da velha que incorpora conceitos de
 <img src="readme/show_game.gif" width=300>
 </p>
 
-<p align='center'>
-![watch this repo](https://github.com/antoniolisboa/tic_tac_toe/subscription)
-</p>
+---
 
-[abc](https://github.com/antoniolisboa/tic_tac_toe/subscription)
+## Download do APK
 
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/antoniolisboa/tic_tac_toe/archive/HEAD.zip" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download antoniolisboa/tic_tac_toe on GitHub">Download</a>
+<div align='center'>
+
+[Button Icon]: https://img.shields.io/badge/Download-F26419?style=flat&logoColor=black&logo=DocuSign
+[Link]: https://github.com/antoniolisboa/tic_tac_toe/subscription
+
+[<img src='https://img.shields.io/badge/Download-F26419?style=flat&logoColor=black&logo=DocuSign' height='40'>][Link]
+
+</div>
