@@ -25,3 +25,14 @@ Este projeto consiste em uma versão do jogo da velha que incorpora conceitos de
 <p align="center">
 <img src="readme/show_game.gif" width=300>
 </p>
+
+<p align='center'>
+![watch this repo](https://github.com/antoniolisboa/tic_tac_toe/subscription)
+</p>
+
+[abc](https://github.com/antoniolisboa/tic_tac_toe/subscription)
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Place this tag where you want the button to render. -->
+<a class="github-button" href="https://github.com/antoniolisboa/tic_tac_toe/archive/HEAD.zip" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download antoniolisboa/tic_tac_toe on GitHub">Download</a>
