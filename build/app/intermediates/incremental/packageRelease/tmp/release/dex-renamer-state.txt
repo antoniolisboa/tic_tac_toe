@@ -1,0 +1,4 @@
+#Tue Jun 06 19:36:14 BRT 2023
+base.0=/home/antonio/Development/tic_tac_toe/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
