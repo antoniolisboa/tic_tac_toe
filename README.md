@@ -1,16 +1,27 @@
-# tic_tac_toe
+# Jogo da Velha
 
-A new Flutter project.
+<p align="center">
+<img src="readme/home_tic_tac_toe.png" width=300>
+<img src="readme/winner_tic_tac_toe.png" width=300>
+</p>
 
-## Getting Started
+<h3 align="center">Tecnologias utilizadas e plataformas suportadas</h3>
+<p align="center">
+<img src="https://img.shields.io/badge/-Dart-0175C2?logo=dart" height=25>
+<img src="https://img.shields.io/badge/-Flutter-02569B?logo=flutter" height=25>
+<img src="https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white" height=25>
+<img src="https://img.shields.io/badge/-GitHub-181717?logo=github" height=25>
+<img src="https://img.shields.io/badge/-Android-3DDC84?logo=android&logoColor=white" height=25>
+<img src="https://img.shields.io/badge/-IOS-000000?logo=ios" height=25>
+<img src="https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC?logo=visual-studio-code" height=25>
+</p>
 
-This project is a starting point for a Flutter application.
+## Descrição
 
-A few resources to get you started if this is your first Flutter project:
+Este projeto consiste em uma versão do jogo da velha que incorpora conceitos de **Inteligência Artificial**, mais especificamente os conceitos de **Busca e Otimização**. No modo de jogador único, foi implementado um algoritmo de *minimax*, onde **X** representa o usuário e **O** representa a **IA**. O algoritmo é responsável por tomar decisões das jogadas de **O**, buscando maximizar suas chances de vitória e minimizar as chances de vitória de **X**.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Funcionalidade
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p align="center">
+<img src="readme/show_game.gif" width=300>
+</p>
